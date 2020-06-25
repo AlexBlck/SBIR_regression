@@ -45,12 +45,12 @@ def get_net(caffemodel, deploy_file, use_gpu=True):
     return caffe.Net(deploy_file, caffe.TEST, weights = caffemodel)
 
 
-def extractitem(net, mean_pixel, fname):
+def extractitem(net, mean_pixel, im_array):
   
     DATA_LAYER = net.inputs[0]
     net.blobs[DATA_LAYER].reshape(1,3,224,224) 
     try:
-       input_image = Image.fromarray(np.uint8(caffe.io.load_image(fname)*255))#.resize((256,256),Image.BILINEAR).crop((16,16,240,240))
+       input_image = im_array#.resize((256,256),Image.BILINEAR).crop((16,16,240,240))
        #resize
        sf = 256.0/max(input_image.size)
        input_image = input_image.resize((int(input_image.width*sf),int(input_image.height*sf)),Image.BILINEAR)
